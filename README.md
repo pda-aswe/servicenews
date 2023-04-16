@@ -10,7 +10,7 @@
 ## Datenstruktur des Topics news/article
 ```json
 {
-   "summary": Lorem ipsum dolor,
-   "text": Lorem ipsum dolor
+   "summary": "Lorem ipsum dolor",
+   "text": "Lorem ipsum dolor"
 }
 ```
