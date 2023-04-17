@@ -28,7 +28,7 @@ def test_onMQTTconnect(_):
     obj = messenger.Messenger()
     mock_client = MagicMock()
     obj._Messenger__onMQTTconnect(mock_client,None,None,None)
-    mock_client.subscribe.assert_called_with([("req/news/<Anzahl der Artikel>",0), ("location/current", 0)])
+    mock_client.subscribe.assert_called_with([("req/news",0)])
 
 @patch("api_caller.WorldNewsApiCaller")
 def test_onMQTTMessage(_):
@@ -46,7 +46,7 @@ class DummyMSG:
 def test_newsServiceCallback(mockApiService):
     obj = messenger.Messenger()
     responseData = DummyMSG()
-    msgData = {"numArticles":1}
+    msgData = {"numArticles": 1}
     responseData.set_payload(json.dumps(msgData))
 
     with patch.object(obj, 'newsApiCaller') as mockApiService:
@@ -56,15 +56,3 @@ def test_newsServiceCallback(mockApiService):
         }
         obj._Messenger__newsServiceCallback(None,None,responseData)
         mockApiService.newsRequest.assert_called_with(1, None)
-
-@patch("api_caller.WorldNewsApiCaller")
-def test_locationUpdateCallback(_):
-    obj = messenger.Messenger()
-    dummyLocationMsg = DummyMSG()
-    msgData = {
-        'latitude': 1.0,
-        'longitude': 2.0
-    }
-    dummyLocationMsg.set_payload(json.dumps(msgData))
-    obj._Messenger__locationUpdateCallback(None, None, dummyLocationMsg)
-    assert(obj.location == msgData)
