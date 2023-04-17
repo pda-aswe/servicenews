@@ -1,9 +1,13 @@
 # News Service
 
-## Datenstruktur des Topics req/news/<Anzahl der Artikel>
+## Datenstruktur des Topics req/news
 ```json
 {
   "numArticles":1
+  "location": {
+    "latitude": 0.0
+    "longitude": 0.0
+  } : optional
 }
 ```
 
