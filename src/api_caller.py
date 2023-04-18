@@ -25,7 +25,8 @@ class WorldNewsApiCaller:
             if('longitude' in location and 'latitude' in location):
                 urlRequest += "&location-filter=" + str(location['latitude']) + ',' + str(location['longitude']) + ',100'
 
-        response = requests.post(urlRequest)
+        response = requests.get(urlRequest)
+
         if response.status_code == 200:
             try:
                 newsData = json.loads(response.text)
@@ -35,10 +36,12 @@ class WorldNewsApiCaller:
             newsResult = []
             if "news" in newsData:
                 for article in newsData["news"]:
-                    newsResult.append({
-                        "summary": article["summary"],
-                        "text": article["text"]
-                    })
+                    newArticle = {}
+                    if "summary" in article:
+                        newArticle["summary"] = article["summary"]
+                    if "text" in article:
+                        newArticle["text"] = article["text"]
+                    newsResult.append(newArticle)
                 return newsResult
             
         return -1
